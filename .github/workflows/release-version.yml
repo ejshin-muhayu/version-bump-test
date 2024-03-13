@@ -1,0 +1,42 @@
+name: Version Bump
+
+on:
+  pull_request:
+    branches:
+      - release
+    types:
+      - closed
+jobs:
+  bump:
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.merged == true
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
+
+      - name: Determine Bump Type Based on Branch Name
+        run: |
+          BRANCH_NAME="${{ github.head_ref }}"
+          if [[ "$BRANCH_NAME" == "dev"* ]]; then
+            echo "BUMP_TYPE=release" >> $GITHUB_ENV
+          else
+            echo "BUMP_TYPE=build" >> $GITHUB_ENV
+          fi
+
+      - name: bump
+        run: |
+          python bump_version.py --file_path apps/app/build.gradle --type $BUMP_TYPE
+
+
+      - name: commit
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git add apps/app/build.gradle
+          git commit -m "Bump version"
+          git push origin release
