@@ -3,7 +3,7 @@ name: Version Bump
 on:
   pull_request:
     branches:
-      - dev
+      - release
     types:
       - closed
 jobs:
@@ -19,9 +19,19 @@ jobs:
         with:
           python-version: 3.8
 
+      - name: Determine Bump Type Based on Branch Name
+        run: |
+          BRANCH_NAME="${{ github.head_ref }}"
+          if [[ "$BRANCH_NAME" == "dev"* ]]; then
+            echo "BUMP_TYPE=release" >> $GITHUB_ENV
+          else
+            echo "BUMP_TYPE=build" >> $GITHUB_ENV
+          fi
+
       - name: bump
         run: |
-          python bump_version.py --file_path apps/app/build.gradle --type 'build'
+          python bump_version.py --file_path apps/app/build.gradle --type $BUMP_TYPE
+
 
       - name: commit
         run: |
@@ -29,4 +39,4 @@ jobs:
           git config user.email "actions@github.com"
           git add apps/app/build.gradle
           git commit -m "Bump version"
-          git push origin dev
+          git push origin release
