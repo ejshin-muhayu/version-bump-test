@@ -1,0 +1,26 @@
+name: Version Bump
+
+on:
+  pull_request:
+    branches:
+      - dev
+    types:
+      - closed
+jobs:
+  bump:
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.merged == true
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: bump
+        run: |
+          BRANCH_NAME="${{ github.head_ref }}"
+          if [[ $BRANCH_NAME == "feat"* ]]; then
+            echo "Bump version for feature branch"
+          if [[ $BRANCH_NAME == "fix"* ]]; then
+            echo "Bump version for fix branch"
+          else
+            echo "Bump version for unknown branch"
+          fi
