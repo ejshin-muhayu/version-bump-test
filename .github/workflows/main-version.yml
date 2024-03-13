@@ -3,7 +3,7 @@ name: Version Bump
 on:
   pull_request:
     branches:
-      - release
+      - main
     types:
       - closed
 jobs:
@@ -22,10 +22,12 @@ jobs:
       - name: Determine Bump Type Based on Branch Name
         run: |
           BRANCH_NAME="${{ github.head_ref }}"
-          if [[ "$BRANCH_NAME" == "dev" ]]; then
-            echo "BUMP_TYPE=release" >> $GITHUB_ENV
+          if [[ "$BRANCH_NAME" == "release" ]]; then
+            echo "BUMP_TYPE=launch" >> $GITHUB_ENV
+          elif [[ "$BRANCH_NAME" == "hotfix"* ]]; then
+            echo "BUMP_TYPE=patch" >> $GITHUB_ENV
           else
-            echo "BUMP_TYPE=build" >> $GITHUB_ENV
+            echo "BUMP_TYPE=none" >> $GITHUB_ENV
           fi
 
       - name: bump
