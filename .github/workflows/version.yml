@@ -18,9 +18,17 @@ jobs:
         run: |
           BRANCH_NAME="${{ github.head_ref }}"
           if [[ $BRANCH_NAME == "feat"* ]]; then
-            echo "Bump version for feature branch"
+            echo "Bump version for feature branch" >> history.txt
           if [[ $BRANCH_NAME == "fix"* ]]; then
-            echo "Bump version for fix branch"
+            echo "Bump version for fix branch" >> history.txt
           else
-            echo "Bump version for unknown branch"
+            echo "Bump version for unknown branch" >> history.txt
           fi
+
+      - name: commit
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git add history.txt
+          git commit -m "Bump version"
+          git push origin dev
