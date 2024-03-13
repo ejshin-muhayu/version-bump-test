@@ -14,16 +14,14 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
+
       - name: bump
         run: |
-          BRANCH_NAME="${{ github.head_ref }}"
-          if [[ $BRANCH_NAME == "feat"* ]]; then
-            echo "Bump version for feature branch" >> history.txt
-          elif [[ $BRANCH_NAME == "fix"* ]]; then
-            echo "Bump version for fix branch" >> history.txt
-          else
-            echo "Bump version for unknown branch" >> history.txt
-          fi
+          python bump_version.py --file_path apps/app/build.gradle --type 'build'
 
       - name: commit
         run: |
