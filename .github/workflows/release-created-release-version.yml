@@ -28,4 +28,4 @@ jobs:
           git config user.email "actions@github.com"
           git add apps/app/build.gradle
           git commit -m "Bump version"
-          git push origin dev
+          git push origin release
