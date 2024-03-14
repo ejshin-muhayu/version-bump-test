@@ -32,7 +32,7 @@ def bump_version(version: str, bump_type: str) -> str:
     elif bump_type == "minor":
         version_parts["minor"] += 1
         version_parts["patch"] = 0
-        version_parts["env"] = ""
+        version_parts["build"] = 1
     elif bump_type == "patch":
         version_parts["patch"] += 1
         version_parts["env"] = ""
@@ -43,7 +43,9 @@ def bump_version(version: str, bump_type: str) -> str:
             raise ValueError("Cannot bump build version of a non-env version")
     elif bump_type == "release":
         version_parts["env"] = "release"
-        version_parts["build"] = 0
+        version_parts["build"] = 1
+    elif bump_type == "launch":
+        version_parts["env"] = ""
     else:
         raise ValueError(f"Unsupported bump type: {bump_type}")
 
@@ -93,7 +95,7 @@ def main():
     parser = argparse.ArgumentParser(description="Bump version of a package")
     parser.add_argument("--file_path", required=True, type=str, help="The path to the file to bump version")
     parser.add_argument(
-        "--type", required=True, type=str, choices=["major", "minor", "patch", "build", "release"], help="The type of version bump"
+        "--type", required=True, type=str, choices=["major", "minor", "patch", "build", "release", "launch"], help="The type of version bump"
     )
     args = parser.parse_args()
 
