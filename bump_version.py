@@ -32,7 +32,7 @@ def bump_version(version: str, bump_type: str) -> str:
     elif bump_type == "minor":
         version_parts["minor"] += 1
         version_parts["patch"] = 0
-        version_parts["env"] = ""
+        version_parts["build"] = 1
     elif bump_type == "patch":
         version_parts["patch"] += 1
         version_parts["env"] = ""
@@ -43,7 +43,7 @@ def bump_version(version: str, bump_type: str) -> str:
             raise ValueError("Cannot bump build version of a non-env version")
     elif bump_type == "release":
         version_parts["env"] = "release"
-        version_parts["build"] = 0
+        version_parts["build"] = 1
     elif bump_type == "launch":
         version_parts["env"] = ""
     else:
