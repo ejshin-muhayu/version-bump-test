@@ -23,7 +23,7 @@ def parse_version(version: str):
 
 
 def bump_version(version: str, bump_type: str) -> str:
-    version_parts = parse_version(version)
+    version_parts = parse_version('version')
     if bump_type == "major":
         version_parts["major"] += 1
         version_parts["minor"] = 0
