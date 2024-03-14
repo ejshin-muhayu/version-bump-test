@@ -1,4 +1,4 @@
-name: Version Bump
+name: Dev -> Release Dev Version Bump
 
 on:
   pull_request:
@@ -9,7 +9,7 @@ on:
 jobs:
   bump:
     runs-on: ubuntu-latest
-    if: github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'dev'
+    if: github.event.pull_request.merged == true && github.event.pull_request.head.ref == 'dev'
 
     steps:
       - name: Checkout code
