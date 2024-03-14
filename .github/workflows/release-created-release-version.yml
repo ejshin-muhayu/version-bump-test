@@ -1,13 +1,13 @@
 name: Release Created Release Version Bump
 
 on:
-  create:
+  push:
     branches:
       - release
 jobs:
   bump:
     runs-on: ubuntu-latest
-    if:
+    if: github.event.created == true
 
     steps:
       - name: Checkout code
