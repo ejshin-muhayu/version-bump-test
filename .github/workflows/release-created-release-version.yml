@@ -1,0 +1,31 @@
+name: Release Created Release Version Bump
+
+on:
+  create:
+    branches:
+      - release
+jobs:
+  bump:
+    runs-on: ubuntu-latest
+    if:
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
+
+      - name: bump
+        run: |
+          python bump_version.py --file_path apps/app/build.gradle --type release
+
+      - name: commit
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git add apps/app/build.gradle
+          git commit -m "Bump version"
+          git push origin release
