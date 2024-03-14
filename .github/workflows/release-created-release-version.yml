@@ -1,21 +1,17 @@
-name: Dev -> Release Dev Version Bump
+name: Release Created Release Version Bump
 
 on:
-  pull_request:
+  create:
     branches:
       - release
-    types:
-      - closed
 jobs:
   bump:
     runs-on: ubuntu-latest
-    if: github.event.pull_request.merged == true && github.event.pull_request.head.ref == 'dev'
+    if:
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-        with:
-          ref: dev
 
       - name: Set up Python
         uses: actions/setup-python@v2
@@ -24,7 +20,7 @@ jobs:
 
       - name: bump
         run: |
-          python bump_version.py --file_path apps/app/build.gradle --type minor
+          python bump_version.py --file_path apps/app/build.gradle --type release
 
       - name: commit
         run: |
