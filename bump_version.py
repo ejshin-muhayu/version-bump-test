@@ -10,7 +10,7 @@ def parse_version(version: str):
     pattern = re.compile(r"(\d+)\.(\d+)\.(\d+)(?:-([\w]+)\.(\d+))?")
     match = pattern.match(version)
     if not match:
-        raise ValueError(f"Invalid version: {version}")
+        raise ValueError("Invalid version: {version}")
 
     major, minor, patch, env, build = match.groups()
     return {
