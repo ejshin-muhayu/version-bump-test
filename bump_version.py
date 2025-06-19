@@ -41,10 +41,10 @@ def bump_version(version: str, bump_type: str) -> str:
             version_parts["build"] += 1
         else:
             raise ValueError("Cannot bump build version of a non-env version")
-    elif bump_type == "release":
-        version_parts["env"] = "release"
+    elif bump_type == "qc":
+        version_parts["env"] = "beta"
         version_parts["build"] = 1
-    elif bump_type == "launch":
+    elif bump_type == "release":
         version_parts["env"] = ""
     else:
         raise ValueError(f"Unsupported bump type: {bump_type}")
@@ -71,7 +71,7 @@ def bump_from_package_json(file_path: str, bump_type: str):
 def bump_from_build_gradle(file_path: str, bump_type: str):
     with open(file_path, "r") as f:
         data = f.read()
-    pattern = re.compile(r"version = '(\d+)\.(\d+)\.(\d+)(?:-([\w]+)\.(\d+))?'")
+    pattern = re.compile(r"version = \"(\d+)\.(\d+)\.(\d+)(?:-([\w]+)\.(\d+))?\"")
     matched = pattern.search(data)
 
     old_version = "0.0.0"
@@ -83,7 +83,7 @@ def bump_from_build_gradle(file_path: str, bump_type: str):
             old_version = f"{major}.{minor}.{patch}"
 
     new_version = bump_version(old_version, bump_type)
-    updated_data = pattern.sub(f"version = '{new_version}'", data)
+    updated_data = pattern.sub(f"version = \"{new_version}\"", data)
 
     with open(file_path, "w", encoding="UTF-8") as f:
         f.write(updated_data)
@@ -95,7 +95,7 @@ def main():
     parser = argparse.ArgumentParser(description="Bump version of a package")
     parser.add_argument("--file_path", required=True, type=str, help="The path to the file to bump version")
     parser.add_argument(
-        "--type", required=True, type=str, choices=["major", "minor", "patch", "build", "release", "launch"], help="The type of version bump"
+        "--type", required=True, type=str, choices=["major", "minor", "patch", "build", "qc", "release"], help="The type of version bump"
     )
     args = parser.parse_args()
 
