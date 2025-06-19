@@ -1,4 +1,4 @@
-version = '1.15.0-alpha.10'
+version = "1.15.0-beta.8"
 
 plugins {
     id 'java'
