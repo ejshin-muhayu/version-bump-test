@@ -25,9 +25,9 @@ jobs:
       # QC 브랜치 버전 초기화 (-beta.1)
       - name: QC build.gradle 버전 -beta.1 초기화
         run: |
-          NEW_QC_VERSION=$(python bump_version.py --file_path apps/sofac/build.gradle --type 'qc')
+          NEW_QC_VERSION=$(python bump_version.py --file_path apps/app/build.gradle --type 'qc')
           
-          git add apps/sofac/build.gradle
+          git add apps/app/build.gradle
           git commit -m "apps/qc/sofac init version: $NEW_QC_VERSION"
           git push origin apps/qc/sofac
 
@@ -40,8 +40,8 @@ jobs:
       # dev 브랜치 버전 초기화 minor+1, alpha.1 적용
       - name: DEV 브랜치 커밋 및 태그 푸시
         run: |
-          NEW_DEV_VERSION=$(python bump_version.py --file_path apps/sofac/build.gradle --type 'minor')
+          NEW_DEV_VERSION=$(python bump_version.py --file_path apps/app/build.gradle --type 'minor')
 
-          git add apps/sofac/build.gradle
+          git add apps/app/build.gradle
           git commit -m "apps/dev/sofac version bump: $NEW_DEV_VERSION"
           git push origin apps/dev/sofac
