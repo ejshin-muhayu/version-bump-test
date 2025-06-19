@@ -1,3 +1,5 @@
+version = '1.14.0'
+
 plugins {
     id 'java'
     id 'org.springframework.boot' version '3.2.3'
@@ -5,7 +7,7 @@ plugins {
 }
 
 group = 'com.example'
-version = '0.8.0-release.2'
+
 
 
 java {
